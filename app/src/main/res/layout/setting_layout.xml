@@ -415,6 +415,27 @@
                         android:padding="10dp"
                         android:text="https://github.com/ShuaiKeAng/photo-encryption-APP"
                         android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textView46"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:gravity="center"
+                        android:maxLines="100"
+                        android:padding="10dp"
+                        android:text="https://pan.baidu.com/s/1asSjUbdX1NXp3HwyvnBinA?"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textView47"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="100"
+                        android:padding="10dp"
+                        android:text="提取码：8888"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
