@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -572,9 +573,9 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
 
-
+                            imageView_example.setImageDrawable(imageView_main.getDrawable());
                         }
-                        imageView_example.setImageDrawable(imageView_main.getDrawable());
+
                         break;
 
                 }
@@ -2439,7 +2440,16 @@ public class MainActivity extends AppCompatActivity {
 
         return bm1;
     }
-
+    public static String getVerName(Context context) {
+        String verName = "";
+        try {
+            verName = context.getPackageManager().
+                    getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return verName;
+    }
 
 
 

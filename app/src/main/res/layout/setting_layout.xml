@@ -384,6 +384,37 @@
                         android:padding="10dp"
                         android:text="作者：一叶千里"
                         android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textView43"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="100"
+                        android:padding="10dp"
+                        android:text="当前版本\n1.1.0"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textView45"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="100"
+                        android:padding="10dp"
+                        android:text="开源地址以及最新版"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textView44"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:gravity="center"
+                        android:maxLines="100"
+                        android:padding="10dp"
+                        android:text="https://github.com/ShuaiKeAng/photo-encryption-APP"
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>

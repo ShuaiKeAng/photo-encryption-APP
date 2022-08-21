@@ -2,11 +2,13 @@ package com.shuaikeang.phen;
 
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 public class setting {
@@ -69,6 +71,7 @@ public class setting {
         checkBox1=dialog.getWindow().findViewById(R.id.checkBox2);
         checkBox2=dialog.getWindow().findViewById(R.id.checkBox3);
         checkBox4=dialog.getWindow().findViewById(R.id.checkBox4);
+        ((TextView)dialog.getWindow().findViewById(R.id.textView43)).setText("当前版本\n"+MainActivity.getVerName(MainActivity.mainActivity));
         editText_scan_num.setText(String.valueOf(default_scan_num));
         editText_rect_width.setText(String.valueOf(default_rect_width));
         editText_rect_outwidth.setText(String.valueOf(default_rect_outwidth));
@@ -81,6 +84,7 @@ public class setting {
         checkBox4.setChecked(show);
 
         listener();
+
     }
     public void listener(){
         button_default_setting.setOnClickListener(new View.OnClickListener() {
