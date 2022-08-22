@@ -130,6 +130,42 @@
             android:textSize="18sp" />
 
         <Button
+            android:id="@+id/button52"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2.5dp"
+            android:layout_marginBottom="2.5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_back_more"
+            android:minWidth="100dp"
+            android:minHeight="10dp"
+            android:padding="5dp"
+            android:paddingBottom="2.5dp"
+            android:stateListAnimator="@null"
+            android:text="设密钥图"
+            android:textColor="#969696"
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/button53"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2.5dp"
+            android:layout_marginBottom="2.5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_back_more"
+            android:minWidth="100dp"
+            android:minHeight="10dp"
+            android:padding="5dp"
+            android:paddingBottom="2.5dp"
+            android:stateListAnimator="@null"
+            android:text="升饱和度"
+            android:textColor="#969696"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <Button
             android:id="@+id/button51"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

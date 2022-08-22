@@ -67,7 +67,7 @@ public class bitmap_process {
     public void setr(int x, int y, int col) {
         int clr=point_color[x][y];
         int gb = (clr & 0x0000ffff);
-        point_color[x][y]=gb+((int)(col))<<16;
+        point_color[x][y]=gb+((int)(col)*65536);
     }
     public int getg(int x, int y) {
         return (int)((point_color[x][y]&(0x0000ff00))>>8);
@@ -76,7 +76,7 @@ public class bitmap_process {
     public void setg(int x, int y, int col) {
         int clr=point_color[x][y];
         int rb = (clr & 0x00ff00ff);
-        point_color[x][y]=rb+((int)(col))<<8;
+        point_color[x][y]=rb+((int)(col)*256);
     }
     public int getb(int x, int y) {
         return (int)((point_color[x][y]&(0x000000ff)));
