@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/conmore"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="20dp"
@@ -252,6 +253,15 @@
                         android:checked="true"
                         android:text="显示引导" />
 
+                    <CheckBox
+                        android:id="@+id/checkBox5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:checked="false"
+                        android:text="选区模式自动添加纱网" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -355,6 +365,7 @@
                         android:id="@+id/textView26"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="true"
                         android:gravity="center"
                         android:shadowColor="#FD64F0E4"
                         android:shadowDx="5"

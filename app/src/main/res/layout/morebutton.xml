@@ -160,10 +160,10 @@
             android:padding="5dp"
             android:paddingBottom="2.5dp"
             android:stateListAnimator="@null"
-            android:text="升饱和度"
+            android:text="可逆纱网"
             android:textColor="#969696"
             android:textSize="18sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/button51"

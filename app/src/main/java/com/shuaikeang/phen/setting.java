@@ -15,13 +15,13 @@ public class setting {
     LinearLayout linearLayout_default_setting,linearLayout_others,linearLayout_contract,linearLayout_about;
     Button button_default_setting,button_others,button_contract,button_about;
     EditText editText_scan_num,editText_rect_width,editText_rect_outwidth,editText_max_scale,editText_name;
-    CheckBox checkBox1,checkBox2,checkBox4;
+    CheckBox checkBox1,checkBox2,checkBox4,checkBox5;
     Dialog dialog;
     SharedPreferences sharedPreferences;
     public int default_scan_num=100,default_rect_width=20,default_rect_outwidth=5,default_max_scale=10;
     public String default_name="image";
-    public boolean default_show,default_vibrator,contract_user,show;
-
+    public boolean default_show,default_vibrator,contract_user,show,default_sw;
+    int num_try=0;
 
     public void getsetting(){
         if (firstRun()==false) {
@@ -37,6 +37,7 @@ public class setting {
                 default_show = sharedPreferences.getBoolean("show", true);
                 contract_user= sharedPreferences.getBoolean("contract_user", false);
                 show=sharedPreferences.getBoolean("show2",true);
+                default_sw=sharedPreferences.getBoolean("sw",false);
             }catch (Exception e){
 
             }
@@ -49,6 +50,7 @@ public class setting {
             default_vibrator = true;
             default_show = true;
             show=true;
+            default_sw=false;
             //contract_user=false;
         }
     }
@@ -71,6 +73,7 @@ public class setting {
         checkBox1=dialog.getWindow().findViewById(R.id.checkBox2);
         checkBox2=dialog.getWindow().findViewById(R.id.checkBox3);
         checkBox4=dialog.getWindow().findViewById(R.id.checkBox4);
+        checkBox5=dialog.getWindow().findViewById(R.id.checkBox5);
         ((TextView)dialog.getWindow().findViewById(R.id.textView43)).setText("当前版本\n"+MainActivity.getVerName(MainActivity.mainActivity));
         editText_scan_num.setText(String.valueOf(default_scan_num));
         editText_rect_width.setText(String.valueOf(default_rect_width));
@@ -82,11 +85,24 @@ public class setting {
         checkBox1.setChecked(default_vibrator);
         checkBox2.setChecked(default_show);
         checkBox4.setChecked(show);
+        checkBox5.setChecked(default_sw);
 
         listener();
 
     }
     public void listener(){
+        dialog.getWindow().findViewById(R.id.textView26).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                num_try++;
+                if (num_try==5){
+                    MainActivity.mainActivity.cson=true;
+                    num_try=0;
+                }
+            }
+        });
+
+
         button_default_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,6 +155,7 @@ public class setting {
         default_vibrator=checkBox1.isChecked();
         default_show=checkBox2.isChecked();
         show=checkBox4.isChecked();
+        default_sw=checkBox5.isChecked();
     }
 
     public void update(){
@@ -157,7 +174,7 @@ public class setting {
         editor.putBoolean("show",default_show);
         editor.putBoolean("default_vibrator",default_vibrator);
         editor.putBoolean("show2",show);
-
+        editor.putBoolean("sw",default_sw);
         // 提交数据
         editor.commit();
 

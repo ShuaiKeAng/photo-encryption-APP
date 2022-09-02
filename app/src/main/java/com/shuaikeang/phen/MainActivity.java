@@ -34,6 +34,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     int width_or_height=0;
      int select_num_image=0,num_sum=0;
     int model=0,ii=0;
-    boolean rect_image=false,ax=false;
+    boolean rect_image=false,ax=false,cs=false,cson=false;
     Point s1,s2;
     public int finishi=0;
     Vibrator vibrator;
@@ -138,6 +139,21 @@ public class MainActivity extends AppCompatActivity {
         }
         if (setting_1.show==false){
             scrollView.setVisibility(View.GONE);
+        }
+
+        {
+            findViewById(R.id.linearLayout).setVisibility(View.INVISIBLE);
+            try {
+                Thread.sleep(400);
+            }catch (Exception e){
+
+            }
+            findViewById(R.id.linearLayout).setVisibility(View.VISIBLE);
+            TranslateAnimation ta = new TranslateAnimation(0,0,-300,0);
+            // 设置动画时长
+            ta.setDuration(500);
+            // 启动动画
+            findViewById(R.id.linearLayout).startAnimation(ta);
         }
 
 
@@ -202,6 +218,18 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.width=WindowManager.LayoutParams.MATCH_PARENT;//全屏
                 layoutParams.height=WindowManager.LayoutParams.MATCH_PARENT;//全屏
                 dialog.getWindow().setAttributes(layoutParams);
+
+                {
+
+                    TranslateAnimation ta = new TranslateAnimation(0,0,-100,0);
+                    // 设置动画时长
+                    ta.setDuration(250);
+                    // 启动动画
+                    dialog.getWindow().findViewById(R.id.conmore).startAnimation(ta);
+                }
+
+
+
                 dialog.show();
                 setting_1.setnew(dialog);
 
@@ -244,6 +272,17 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.height=WindowManager.LayoutParams.MATCH_PARENT;//全屏
                 dialog.getWindow().setAttributes(layoutParams);
                 dialog.show();
+                //((BlurBGImageView)dialog.getWindow().findViewById(R.id.img_vague)).refreshBG(dialog.getWindow().findViewById(R.id.linearLayout));
+
+                {
+
+                    TranslateAnimation ta = new TranslateAnimation(0,0,100,0);
+                    // 设置动画时长
+                    ta.setDuration(250);
+                    // 启动动画
+                    dialog.getWindow().findViewById(R.id.linearLayout).startAnimation(ta);
+                }
+
                 ((EditText)(dialog.getWindow().findViewById(R.id.editText10))).setText(String.valueOf(width));
                 ((EditText)(dialog.getWindow().findViewById(R.id.editText20))).setText(String.valueOf(height));
                 final CheckBox checkBox=dialog.getWindow().findViewById(R.id.checkBox);
@@ -387,6 +426,44 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         miyaotu=select_num_image;
                         Toast.makeText(MainActivity.this, "已设置密钥图，可在无影模式中做表图", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                button_swn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bitmap_process bitmap_process_sw=new bitmap_process();
+                        bitmap_process_sw.rewrite(bitmap_process_sw.getBitmap(imageView_main.getDrawable()));
+                        int h=bitmap_process_sw.height;
+                        int w=bitmap_process_sw.width;
+                        for (int i=1;i<=h-1;i+=2){
+                            for (int j=1;j<=w-1;j+=2){
+                                bitmap_process_sw.setr(i+1,j,bitmap_process_sw.getr(i+1,j));
+                                bitmap_process_sw.setg(i+1,j,255-bitmap_process_sw.getg(i+1,j));
+                                bitmap_process_sw.setb(i+1,j,255-bitmap_process_sw.getb(i+1,j));
+                                bitmap_process_sw.setr(i,j+1,255-bitmap_process_sw.getr(i,j+1));
+                                bitmap_process_sw.setg(i,j+1,bitmap_process_sw.getg(i,j+1));
+                                bitmap_process_sw.setb(i,j+1,255-bitmap_process_sw.getb(i,j+1));
+                                bitmap_process_sw.setr(i+1,j+1,255-bitmap_process_sw.getr(i+1,j+1));
+                                bitmap_process_sw.setg(i+1,j+1,255-bitmap_process_sw.getg(i+1,j+1));
+                                bitmap_process_sw.setb(i+1,j+1,bitmap_process_sw.getb(i+1,j+1));
+                            }
+                        }
+                        if (h%2==1){
+                            for (int j=1;j<=w-1;j+=2){
+                                bitmap_process_sw.setr(h,j+1,255-bitmap_process_sw.getr(h,j+1));
+                                bitmap_process_sw.setg(h,j+1,bitmap_process_sw.getg(h,j+1));
+                                bitmap_process_sw.setb(h,j+1,255-bitmap_process_sw.getb(h,j+1));
+                            }
+                        }
+                        if(w%2==1){
+                            for (int i=1;i<=h-1;i+=2){
+                                bitmap_process_sw.setr(i+1,w,255-bitmap_process_sw.getr(i+1,w));
+                                bitmap_process_sw.setg(i+1,w,bitmap_process_sw.getg(i+1,w));
+                                bitmap_process_sw.setb(i+1,w,255-bitmap_process_sw.getb(i+1,w));
+                            }
+                        }
+                        imageView_main.setImageBitmap(bitmap_process_sw.rep());
+                        ((ImageView)linearLayout_imagelist.getChildAt(select_num_image)).setImageDrawable(imageView_main.getDrawable());
                     }
                 });
                 /*
@@ -544,6 +621,14 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.height=WindowManager.LayoutParams.MATCH_PARENT;//全屏
                 dialog.getWindow().setAttributes(layoutParams);
                 dialog.show();
+                {
+
+                    TranslateAnimation ta = new TranslateAnimation(0,0,200,0);
+                    // 设置动画时长
+                    ta.setDuration(250);
+                    // 启动动画
+                    dialog.getWindow().findViewById(R.id.con2).startAnimation(ta);
+                }
                 Bitmap bitmap=getBitmap(imageView_main.getDrawable());
                 draw_image draw_image_1=new draw_image();
                 draw_image_1.setnew(dialog,bitmap);
@@ -611,7 +696,9 @@ public class MainActivity extends AppCompatActivity {
                             if (lx<rx){
                                 if (select_num_image!=num_sum){
                                     select_num_image++;
+
                                     imageView_main.setImageDrawable(((ImageView)linearLayout_imagelist.getChildAt(select_num_image)).getDrawable());
+
                                 }else {
                                     Toast.makeText(MainActivity.this, "已是最后一张", Toast.LENGTH_SHORT).show();
                                 }
@@ -674,7 +761,11 @@ public class MainActivity extends AppCompatActivity {
                             break;
 
                     }
+
+
                     if (setting_1.default_vibrator) vibrator.vibrate(100);
+
+
                 }else {
                     Toast.makeText(MainActivity.this, "请先关闭选区再切换模式", Toast.LENGTH_SHORT).show();
                 }
@@ -766,6 +857,15 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.height=WindowManager.LayoutParams.MATCH_PARENT;//全屏
                 dialog.getWindow().setAttributes(layoutParams);
                 dialog.show();
+                {
+
+                    TranslateAnimation ta = new TranslateAnimation(0,0,-100,0);
+                    // 设置动画时长
+                    ta.setDuration(250);
+                    // 启动动画
+                    dialog.getWindow().findViewById(R.id.linearLayout).startAnimation(ta);
+                }
+
                 ((EditText)dialog.getWindow().findViewById(R.id.editText_name1)).setText(setting_1.default_name);
                 ((EditText)dialog.getWindow().findViewById(R.id.editText2_name2)).setText(setting_1.default_name);
                 ((TextView)dialog.getWindow().findViewById(R.id.textView8)).setText("列表中一共有"+num_sum+"张图片，当前选中第"+select_num_image+"张");
@@ -882,6 +982,14 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;//全屏
                 dialog.getWindow().setAttributes(layoutParams);
                 dialog.show();
+                {
+
+                    TranslateAnimation ta = new TranslateAnimation(0,0,100,0);
+                    // 设置动画时长
+                    ta.setDuration(250);
+                    // 启动动画
+                    dialog.getWindow().findViewById(R.id.linearLayout4).startAnimation(ta);
+                }
                 photoView.setImageBitmap(bitmap);
                 {
                     dialog.getWindow().findViewById(R.id.imageButton11).setOnTouchListener(new View.OnTouchListener() {
@@ -1582,14 +1690,196 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+        button_start.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                if (cson) {
+                    if (imageView_main.getDrawable() != null) {
+                        if (setting_1.default_vibrator) vibrator.vibrate(100);
+                        progressBar.setVisibility(View.VISIBLE);
+                        textView_show_time.setVisibility(View.GONE);
+                        time_spend_1.start_timering();
+                        cs = true;
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                while (cs == true) {
+                                    try {
+                                        Thread.sleep(10);
+                                    }catch (Exception e){
+
+                                    }
+
+                                    switch (model) {
+                                        case 0:
+                                            if (rect_image == false) {
+
+                                                jm jm_1 = new jm();
+                                                jm_1.getraw(imageView_main.getDrawable());
+                                                jm_1.runp(editText_key.getText().toString());
+                                                Bitmap bitmap = jm_1.setnew();
+                                                bitmap_trans = bitmap;
+                                                handler.sendEmptyMessage(2);//通知主线程更新控件
+                                                handler.sendEmptyMessage(3);//通知主线程更新控件
+                                                //imageView_main.setImageBitmap(bitmap);//
+                                                //((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageBitmap(bitmap);//
+
+                                            } else {
+                                                jm jm_1 = new jm();
+                                                jm_1.getraw2(imageView_main.getDrawable(), s1, s2);
+                                                jm_1.runp(editText_key.getText().toString());
+                                                Bitmap bitmap = jm_1.setnew2(s1, s2);
+                                                bitmap_trans = bitmap;
+                                                handler.sendEmptyMessage(2);//通知主线程更新控件
+                                                handler.sendEmptyMessage(3);//通知主线程更新控件
+                                                // imageView_main.setImageBitmap(bitmap);//
+                                                //((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageBitmap(bitmap);//
+                                            }
+                                            break;
+                                        case 1:
+
+                                            for (int i = 1; i <= num_sum; i++) {
+                                                jm jm_1 = new jm();
+                                                jm_1.getraw(((ImageView) linearLayout_imagelist.getChildAt(i)).getDrawable());
+                                                jm_1.runp(editText_key.getText().toString());
+                                                Bitmap bitmap = jm_1.setnew();
+                                                bitmap_trans = bitmap;
+                                                i_trans = i;
+                                                handler.sendEmptyMessage(2);//通知主线程更新控件
+                                                handler.sendEmptyMessage(4);//通知主线程更新控件
+                                                select_num_image = i;
+                                                //imageView_main.setImageBitmap(bitmap);
+                                                //((ImageView) linearLayout_imagelist.getChildAt(i)).setImageBitmap(bitmap);
+                                            }
+                                            break;
+                                        case 2:
+                                            if (miyaotu > 0 && miyaotu <= num_sum) {
+                                                double q;
+                                                try {
+                                                    q = Double.valueOf(editText_key.getText().toString());
+                                                    if (q <= 0 || q > 1) {
+                                                        q = 1.0;
+                                                        handler.sendEmptyMessage(8);//通知主线程更新控件
+                                                    }
+                                                } catch (Exception e) {
+                                                    q = 1.0;
+                                                    handler.sendEmptyMessage(8);//通知主线程更新控件
+                                                }
+
+                                                bitmap_process bitmap_process_my = new bitmap_process();
+                                                bitmap_process bitmap_process_my_raw = new bitmap_process();
+                                                bitmap_process_my.rewrite(bitmap_process_my.getBitmap(imageView_main.getDrawable()));
+                                                Bitmap newBitmap = Bitmap.createScaledBitmap(((BitmapDrawable) ((ImageView) linearLayout_imagelist.getChildAt(miyaotu)).getDrawable()).getBitmap(), bitmap_process_my.width, bitmap_process_my.height, true);
+                                                bitmap_process_my_raw.rewrite(newBitmap);
+                                                int w = bitmap_process_my.width;
+                                                int h = bitmap_process_my.height;
+                                                for (int i = 1; i <= h; i++) {
+                                                    for (int j = 1; j <= w; j++) {
+                                                        bitmap_process_my.setr(i, j, range(bitmap_process_my.getr(i, j) * q + bitmap_process_my_raw.getr(i, j) * (1 - q)));
+                                                        bitmap_process_my.setg(i, j, range(bitmap_process_my.getg(i, j) * q + bitmap_process_my_raw.getg(i, j) * (1 - q)));
+                                                        bitmap_process_my.setb(i, j, range(bitmap_process_my.getb(i, j) * q + bitmap_process_my_raw.getb(i, j) * (1 - q)));
+                                                    }
+                                                }
+                                                bitmap_trans = bitmap_process_my.rep();
+                                                handler.sendEmptyMessage(2);//通知主线程更新控件
+                                                handler.sendEmptyMessage(3);//通知主线程更新控件
+
+                                            } else {
+                                                handler.sendEmptyMessage(9);//通知主线程更新控件
+                                            }
+                                            break;
+                                        case -1:
+                                            String s1 = editText_key.getText().toString();
+                                            String s = "";
+                                            int l = s1.length();
+                                            char[] arr = s1.toCharArray();
+                                            int cat = 0;
+                                            String[] n = new String[5];
+                                            for (int i = 0; i <= 4; i++) {
+                                                n[i] = "";
+                                            }
+                                            int confirm = 0;
+                                            for (int i = 0; i <= l - 1; i++) {
+                                                switch (arr[i]) {
+                                                    case '[':
+                                                        cat = 0;
+                                                        confirm++;
+                                                        break;
+                                                    case ']':
+                                                        cat++;
+                                                        confirm++;
+                                                        break;
+                                                    case ',':
+                                                        cat++;
+                                                        confirm++;
+                                                        break;
+                                                    default:
+                                                        if (arr[i] >= '0' && arr[i] <= '9') {
+                                                            n[cat] += arr[i];
+                                                        }
+                                                        break;
+                                                }
+                                            }
+                                            Boolean could_do = false;
+                                            if (confirm == 5) {
+                                                could_do = true;
+                                                s = n[4];
+                                            } else if (confirm == 0) {
+                                                could_do = true;
+                                                s = editText_key.getText().toString();
+                                            } else {
+                                                handler.sendEmptyMessage(6);//通知主线程更新控件
+                                            }
+
+                                            if (could_do == true) {
+                                                try {
+                                                    jmjpg jmjpg1 = new jmjpg();
+                                                    jmjpg1.getraw1(getBitmap(imageView_main.getDrawable()), Integer.parseInt(editText_side_length.getText().toString()), Integer.parseInt(editText_out_length.getText().toString()));
+                                                    jmjpg1.jm(s);
+
+                                                    Bitmap bitmap = jmjpg1.getnew();
+                                                    bitmap_trans = bitmap;
+                                                    handler.sendEmptyMessage(2);//通知主线程更新控件
+                                                    handler.sendEmptyMessage(3);//通知主线程更新控件
+                                                    //imageView_main.setImageBitmap(bitmap);
+                                                    s_trans = "[" + bitmap.getWidth() + "," + bitmap.getHeight() + "," + editText_side_length.getText().toString() + "," + editText_out_length.getText().toString() + "]" + s;
+                                                    handler.sendEmptyMessage(5);//通知主线程更新控件
+                                                } catch (Exception e) {
+
+                                                }
+                                                //editText_key.setText("[" + bitmap.getWidth() + "," + bitmap.getHeight() + "," + editText_side_length.getText().toString() + "," + editText_out_length.getText().toString() + "]" + s);
+                                                // ((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageBitmap(bitmap);
+                                            }
+                                            break;
+                                        default:
+                                    }
+                                }
+
+                                handler.sendEmptyMessage(1);//通知主线程更新控件
+                            }
+                        }.start();
+
+                    } else {
+                        final Toast toast_1 = Toast.makeText(MainActivity.this, "请导入或选择图片", Toast.LENGTH_SHORT);
+                        toast_1.show();
+                    }
+                }
+                return false;
+            }
+        });
+
         button_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imageView_main.getDrawable() != null) {
+
+                cs=false;
+                if (imageView_main.getDrawable() != null && could(imageView_main.getDrawable())) {
                     if (setting_1.default_vibrator) vibrator.vibrate(100);
                     progressBar.setVisibility(View.VISIBLE);
                     textView_show_time.setVisibility(View.GONE);
                     time_spend_1.start_timering();
+
 
                     new Thread() {
                         @Override
@@ -1611,14 +1901,16 @@ public class MainActivity extends AppCompatActivity {
 
                                     } else {
                                         jm jm_1 = new jm();
-                                        System.out.println(s1.x);
-                                        System.out.println(s1.y);
-                                        System.out.println(s2.x);
-                                        System.out.println(s2.y);
                                         jm_1.getraw2(imageView_main.getDrawable(), s1, s2);
                                         jm_1.runp(editText_key.getText().toString());
                                         Bitmap bitmap = jm_1.setnew2(s1, s2);
-                                        bitmap_trans = bitmap;
+                                        if (setting_1.default_sw==true){
+                                            bitmap_trans = sw(bitmap,s1,s2);
+                                        }else {
+                                            bitmap_trans = bitmap;
+                                        }
+
+
                                         handler.sendEmptyMessage(2);//通知主线程更新控件
                                         handler.sendEmptyMessage(3);//通知主线程更新控件
                                         // imageView_main.setImageBitmap(bitmap);//
@@ -1648,11 +1940,11 @@ public class MainActivity extends AppCompatActivity {
                                             q= Double.valueOf(editText_key.getText().toString());
                                             if (q<=0||q>1){
                                                 q=1.0;
-                                                Toast.makeText(MainActivity.this, "请输入0-1的小数", Toast.LENGTH_SHORT).show();
+                                                handler.sendEmptyMessage(8);//通知主线程更新控件
                                             }
                                         }catch (Exception e){
                                             q=1.0;
-                                            Toast.makeText(MainActivity.this, "请输入0-1的小数", Toast.LENGTH_SHORT).show();
+                                            handler.sendEmptyMessage(8);//通知主线程更新控件
                                         }
 
                                         bitmap_process bitmap_process_my=new bitmap_process();
@@ -1669,19 +1961,13 @@ public class MainActivity extends AppCompatActivity {
                                                 bitmap_process_my.setb(i,j,range(bitmap_process_my.getb(i,j)*q+bitmap_process_my_raw.getb(i,j)*(1-q)));
                                             }
                                         }
-
                                         bitmap_trans = bitmap_process_my.rep();
                                         handler.sendEmptyMessage(2);//通知主线程更新控件
                                         handler.sendEmptyMessage(3);//通知主线程更新控件
 
                                     }else {
-                                        Toast.makeText(MainActivity.this, "密钥图未设置或已被删除", Toast.LENGTH_SHORT).show();
-
+                                        handler.sendEmptyMessage(9);//通知主线程更新控件
                                     }
-
-
-
-
                                     break;
                                 case -1:
                                     String s1 = editText_key.getText().toString();
@@ -1736,14 +2022,12 @@ public class MainActivity extends AppCompatActivity {
                                             bitmap_trans = bitmap;
                                             handler.sendEmptyMessage(2);//通知主线程更新控件
                                             handler.sendEmptyMessage(3);//通知主线程更新控件
-                                            //imageView_main.setImageBitmap(bitmap);
+
                                             s_trans = "[" + bitmap.getWidth() + "," + bitmap.getHeight() + "," + editText_side_length.getText().toString() + "," + editText_out_length.getText().toString() + "]" + s;
                                             handler.sendEmptyMessage(5);//通知主线程更新控件
                                         }catch (Exception e){
 
                                         }
-                                        //editText_key.setText("[" + bitmap.getWidth() + "," + bitmap.getHeight() + "," + editText_side_length.getText().toString() + "," + editText_out_length.getText().toString() + "]" + s);
-                                        // ((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageBitmap(bitmap);
                                     }
                                     break;
                                 default:
@@ -1753,7 +2037,7 @@ public class MainActivity extends AppCompatActivity {
                     }.start();
 
                 }else {
-                    final Toast toast_1 = Toast.makeText(MainActivity.this, "请导入或选择图片", Toast.LENGTH_SHORT);
+                    final Toast toast_1 = Toast.makeText(MainActivity.this, "无图片或图片尺寸不合适", Toast.LENGTH_SHORT);
                     toast_1.show();
                 }
             }
@@ -1761,12 +2045,11 @@ public class MainActivity extends AppCompatActivity {
         button_start2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imageView_main.getDrawable() != null) {
+                if (imageView_main.getDrawable() != null&& could(imageView_main.getDrawable())) {
                     if (setting_1.default_vibrator) vibrator.vibrate(100);
                     progressBar.setVisibility(View.VISIBLE);
                     textView_show_time.setVisibility(View.GONE);
                     time_spend_1.start_timering();
-
                     new Thread() {
                         @Override
                         public void run() {
@@ -1777,33 +2060,32 @@ public class MainActivity extends AppCompatActivity {
                                         jm_1.getraw(imageView_main.getDrawable());
                                         jm_1.runq(editText_key.getText().toString());
                                         Bitmap bitmap = jm_1.setnew();
-                                        //imageView_main.setImageBitmap(bitmap);
-                                        //((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageBitmap(bitmap);
                                         bitmap_trans = bitmap;
                                         handler.sendEmptyMessage(2);//通知主线程更新控件
                                         handler.sendEmptyMessage(3);//通知主线程更新控件
-
                                     } else {
                                         jm jm_1 = new jm();
-                                        jm_1.getraw2(imageView_main.getDrawable(), s1, s2);
+                                        Bitmap bitmap=getBitmap(imageView_main.getDrawable());
+                                        if (setting_1.default_sw==true){
+                                            bitmap_trans = sw(bitmap,s1,s2);
+                                        }else {
+                                            bitmap_trans = bitmap;
+                                        }
+                                        jm_1.getraw2(bitmap, s1, s2);
                                         jm_1.runq(editText_key.getText().toString());
-                                        Bitmap bitmap = jm_1.setnew2(s1, s2);
+                                        bitmap = jm_1.setnew2(s1, s2);
+
                                         bitmap_trans = bitmap;
                                         handler.sendEmptyMessage(2);//通知主线程更新控件
                                         handler.sendEmptyMessage(3);//通知主线程更新控件
-                                        //imageView_main.setImageBitmap(bitmap);
-                                        // ((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageBitmap(bitmap);
                                     }
                                     break;
                                 case 1:
                                     for (int i = 1; i <= num_sum; i++) {
-
                                         jm jm_1 = new jm();
                                         jm_1.getraw(((ImageView) linearLayout_imagelist.getChildAt(i)).getDrawable());
                                         jm_1.runq(editText_key.getText().toString());
                                         Bitmap bitmap = jm_1.setnew();
-                                        // imageView_main.setImageBitmap(bitmap);
-                                        //((ImageView) linearLayout_imagelist.getChildAt(i)).setImageBitmap(bitmap);
                                         bitmap_trans = bitmap;
                                         i_trans = i;
                                         handler.sendEmptyMessage(2);//通知主线程更新控件
@@ -1816,14 +2098,14 @@ public class MainActivity extends AppCompatActivity {
                                         double q;
                                         try {
                                             q= Double.valueOf(editText_key.getText().toString());
-                                            if (q<=0||q>1){
-                                                q=1.0;
-                                                Toast.makeText(MainActivity.this, "请输入0-1的小数", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }catch (Exception e){
-                                            q=1.0;
-                                            Toast.makeText(MainActivity.this, "请输入0-1的小数", Toast.LENGTH_SHORT).show();
-                                        }
+                                            if (q<=0||q>1) {
+                                                q = 1.0;
+                                                handler.sendEmptyMessage(8);//通知主线程更新控件
+                                            }//                                            }
+                                        }catch (Exception e) {
+                                            q = 1.0;
+                                            handler.sendEmptyMessage(8);//通知主线程更新控件
+                                        }//                                        }
                                         bitmap_process bitmap_process_my=new bitmap_process();
                                         bitmap_process bitmap_process_my_raw=new bitmap_process();
                                         bitmap_process_my.rewrite(bitmap_process_my.getBitmap(imageView_main.getDrawable()));
@@ -1838,18 +2120,13 @@ public class MainActivity extends AppCompatActivity {
                                                 bitmap_process_my.setb(i,j,range((bitmap_process_my.getb(i,j)-bitmap_process_my_raw.getb(i,j)*(1-q))/q));
                                             }
                                         }
-
                                         bitmap_trans = bitmap_process_my.rep();
                                         handler.sendEmptyMessage(2);//通知主线程更新控件
                                         handler.sendEmptyMessage(3);//通知主线程更新控件
 
                                     }else {
-                                        Toast.makeText(MainActivity.this, "密钥图未设置或已被删除", Toast.LENGTH_SHORT).show();
-
+                                        handler.sendEmptyMessage(9);//通知主线程更新控件
                                     }
-
-
-
                                     break;
                                 case -1:
                                     String s1 = editText_key.getText().toString();
@@ -1884,42 +2161,28 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     if (confirm == 5) {
                                         jmjpg jmjpg1 = new jmjpg();
-
                                         Bitmap bitmap = ((BitmapDrawable) imageView_main.getDrawable()).getBitmap();
                                         Bitmap bitmap1;
-
                                         if (bitmap.getWidth() != Integer.parseInt(n[0]) || bitmap.getHeight() != Integer.parseInt(n[1])) {
                                             bitmap1 = jmjpg1.cgsize(bitmap, Integer.parseInt(n[0]), Integer.parseInt(n[1]));
-                                            //imageView_main.setImageBitmap(bitmap1);
                                             jmjpg1.getraw2(bitmap1, Integer.parseInt(n[2]), Integer.parseInt(n[3]));
                                         } else {
                                             jmjpg1.getraw2(bitmap, Integer.parseInt(n[2]), Integer.parseInt(n[3]));
                                         }
-                                        // System.out.println(s1);
                                         jmjpg1.jm2(n[4]);
                                         bitmap_trans = jmjpg1.getnew2();
                                         handler.sendEmptyMessage(2);//通知主线程更新控件
                                         handler.sendEmptyMessage(3);//通知主线程更新控件
-                                        //imageView_main.setImageBitmap(jmjpg1.getnew2());
-                                        //((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageDrawable(imageView_main.getDrawable());
                                     } else if (confirm == 0) {
-
-
                                             jmjpg jmjpg1 = new jmjpg();
                                             Bitmap bitmap = ((BitmapDrawable) imageView_main.getDrawable()).getBitmap();
-                                            //System.out.println(Integer.parseInt(editText_side_length.getText().toString()));
                                             jmjpg1.getraw2(bitmap, Integer.parseInt(editText_side_length.getText().toString()), Integer.parseInt(editText_out_length.getText().toString()));
-
                                             jmjpg1.jm2(editText_key.getText().toString());
                                             bitmap = jmjpg1.getnew2();
                                             bitmap_trans = bitmap;
                                             handler.sendEmptyMessage(2);//通知主线程更新控件
                                             handler.sendEmptyMessage(3);//通知主线程更新控件
-
-
-                                        //imageView_main.setImageBitmap(jmjpg1.getnew2());
-                                        //((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageDrawable(imageView_main.getDrawable());
-                                    } else {
+                                         } else {
                                         handler.sendEmptyMessage(6);//通知主线程更新控件
                                     }
                                     break;
@@ -1929,12 +2192,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }.start();
                 }else {
-                    final Toast toast_1 = Toast.makeText(MainActivity.this, "请导入或选择图片", Toast.LENGTH_SHORT);
+                    final Toast toast_1 = Toast.makeText(MainActivity.this, "无图片或图片尺寸不合适", Toast.LENGTH_SHORT);
                     toast_1.show();
                 }
             }
         });
-
 
         imageButton_cut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1948,14 +2210,20 @@ public class MainActivity extends AppCompatActivity {
                 dialog = new Dialog(MainActivity.mainActivity);
                 dialog.setContentView(R.layout.image_cut1);//dialog布局
                 final ImageView imageView =dialog.getWindow().findViewById(R.id.imageView);
-               // ConstraintLayout constraintLayout=  dialog.getWindow().findViewById(R.id.con_1);
                 WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();//获取dialog布局的参数
                 dialog.getWindow().setBackgroundDrawableResource(R.color.color_trans);
                 layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;//全屏
                 layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;//全屏
                 dialog.getWindow().setAttributes(layoutParams);
                 dialog.show();
+                {
 
+                    TranslateAnimation ta = new TranslateAnimation(0,0,100,0);
+                    // 设置动画时长
+                    ta.setDuration(250);
+                    // 启动动画
+                    dialog.getWindow().findViewById(R.id.linearLayout).startAnimation(ta);
+                }
                 {
                 dialog.getWindow().findViewById(R.id.imageButton11).setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -2023,8 +2291,6 @@ public class MainActivity extends AppCompatActivity {
                             if (constraintLayout.getTop()!=0||constraintLayout.getBottom()!=imageView.getHeight()){
                                 constraintLayout.getParent().requestDisallowInterceptTouchEvent(true);
                             }
-
-
                             ImageButton imageButton=dialog.getWindow().findViewById(R.id.imageButton11);
                             int mouseaction = event.getAction();
                             switch (mouseaction) {
@@ -2037,7 +2303,6 @@ public class MainActivity extends AppCompatActivity {
                                     ry = (int) constraintLayout.getTop();
                                     break;
                                 case MotionEvent.ACTION_MOVE:
-
                                     if (rx + (int) event.getRawX() - lx >= 0 && rx + (int) event.getRawX() - lx + constraintLayout.getWidth() <= imageView.getWidth()) {
                                         constraintLayout.setLeft(rx + (int) event.getRawX() - lx);
                                     } else if (rx + (int) event.getRawX() - lx < 0) {
@@ -2045,7 +2310,6 @@ public class MainActivity extends AppCompatActivity {
                                     } else if (rx + (int) event.getRawX() - lx + constraintLayout.getWidth() > imageView.getWidth()) {
                                         constraintLayout.setLeft(imageView.getWidth() - constraintLayout.getWidth());
                                     }
-
                                     if (ry + (int) event.getRawY() - ly >= 0 && ry + (int) event.getRawY() - ly + constraintLayout.getHeight() <= imageView.getHeight()) {
                                         constraintLayout.setTop(ry + (int) event.getRawY() - ly);
                                     } else if (ry + (int) event.getRawY() - ly < 0) {
@@ -2059,15 +2323,9 @@ public class MainActivity extends AppCompatActivity {
                                     imageButton.setY(constraintLayout.getHeight()-imageButton.getHeight());
                                     break;
                                 case MotionEvent.ACTION_UP:
-
                                     break;
-
-
                             }
-                            // scrollView.setClickable(true);
                             return false;
-
-
                         }
                     });
                 }
@@ -2078,7 +2336,6 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-
 
                 dialog.getWindow().findViewById(R.id.button11).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -2095,14 +2352,11 @@ public class MainActivity extends AppCompatActivity {
                             ImageButton imageButton = dialog.getWindow().findViewById(R.id.imageButton11);
                             imageButton.setX(imageView.getWidth() - imageButton.getWidth());
                             imageButton.setY(imageView.getHeight() - imageButton.getHeight());
-                            //constraintLayout.setVisibility(View.GONE);
                         }catch (Exception e){
                             Toast.makeText(MainActivity.this, "裁剪过小", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
-
 
                 dialog.getWindow().findViewById(R.id.button10).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -2116,7 +2370,6 @@ public class MainActivity extends AppCompatActivity {
                         imageView.setImageDrawable(imageView_main.getDrawable());
                         imageButton.setX(imageView.getWidth()-imageButton.getWidth());
                         imageButton.setY(imageView.getHeight()-imageButton.getHeight());
-
                     }
                 });
 
@@ -2133,52 +2386,29 @@ public class MainActivity extends AppCompatActivity {
                             Bitmap bitmap = Bitmap.createBitmap(((BitmapDrawable) imageView.getDrawable()).getBitmap(), lefttop_image.x, lefttop_image.y, rightbottom_image.x, rightbottom_image.y);
                             imageView_main.setImageBitmap(bitmap);
                             ((ImageView) linearLayout_imagelist.getChildAt(select_num_image)).setImageBitmap(bitmap);
-
                             dialog.dismiss();
                         }catch (Exception e){
                          Toast.makeText(MainActivity.this, "裁剪过小", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-               // ImageView imageView=dialog.getWindow().findViewById(R.id.imageView);
-
-
-                //mAttacher = new PhotoViewAttacher(mPhotoView);
                 if (bitmap!=null) {
-                    //((TextView)(dialog.getWindow().findViewById(R.id.textView2))).setText(bitmap.getWidth()+"X"+bitmap.getHeight());
                   imageView.setImageBitmap(bitmap);
-
                 }
-
-                //mPhotoView.setImageBitmap(bitmap);
-
-
-
-
-
             }
         });
-
-
-
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         int max_sum=30;
         if (requestCode==2) {
             Uri uri;
-            //System.out.println(data.toString());
             if (data != null) {
                 if(num_sum<max_sum){
-                //System.out.println("afaf");
                 ClipData imageNames = data.getClipData();
                 System.out.println(imageNames);
                 if (imageNames != null) {
-
-                    System.out.println(imageNames.getItemCount());
-
                     int count=imageNames.getItemCount();
                     if (count+num_sum>max_sum){
                        count=max_sum-num_sum;
@@ -2215,16 +2445,21 @@ public class MainActivity extends AppCompatActivity {
                                 public boolean onLongClick(View v) {
                                     dialog = new Dialog(MainActivity.mainActivity);
                                     dialog.setContentView(R.layout.dia_layout);//dialog布局
-
                                     WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();//获取dialog布局的参数
                                     dialog.getWindow().setBackgroundDrawableResource(R.color.color_trans);
                                     layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;//全屏
                                     layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;//全屏
                                     dialog.getWindow().setAttributes(layoutParams);
                                     dialog.show();
+                                    {
+
+                                        TranslateAnimation ta = new TranslateAnimation(0,0,100,0);
+                                        // 设置动画时长
+                                        ta.setDuration(250);
+                                        // 启动动画
+                                        dialog.getWindow().findViewById(R.id.condel).startAnimation(ta);
+                                    }
                                     if (setting_1.default_vibrator) vibrator.vibrate(100);
-                                    //((BlurLayout)( dialog.getWindow().findViewById(R.id.blurLayout))).startBlur();
-                                    //((BlurLayout)( dialog.getWindow().findViewById(R.id.blurLayout))).lockView();
                                     dialog.getWindow().findViewById(R.id.button_change_false).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -2257,18 +2492,12 @@ public class MainActivity extends AppCompatActivity {
                                             dialog.dismiss();
                                         }
                                     });
-
                                     return false;
                                 }
                             });
-
-
                         } catch (FileNotFoundException e) {
                             Log.e("Exception", e.getMessage(), e);
                         }
-
-
-                        System.out.println(imageUri);
                     }
                     show_picture();
                     imageView_main.setImageDrawable(((ImageView) linearLayout_imagelist.getChildAt(num_sum)).getDrawable());
@@ -2277,7 +2506,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     uri = data.getData();
                     {
-
                         uri = data.getData();
                         Log.e("uri", uri.toString());
                         ContentResolver cr = this.getContentResolver();
@@ -2308,15 +2536,20 @@ public class MainActivity extends AppCompatActivity {
                                 public boolean onLongClick(View v) {
                                     dialog = new Dialog(MainActivity.mainActivity);
                                     dialog.setContentView(R.layout.dia_layout);//dialog布局
-
                                     WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();//获取dialog布局的参数
-
-
                                     dialog.getWindow().setBackgroundDrawableResource(R.color.color_trans);
                                     layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;//全屏
                                     layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;//全屏
                                     dialog.getWindow().setAttributes(layoutParams);
                                     dialog.show();
+                                    {
+
+                                        TranslateAnimation ta = new TranslateAnimation(0,0,100,0);
+                                        // 设置动画时长
+                                        ta.setDuration(250);
+                                        // 启动动画
+                                        dialog.getWindow().findViewById(R.id.condel).startAnimation(ta);
+                                    }
                                     if (setting_1.default_vibrator) vibrator.vibrate(100);
                                     dialog.getWindow().findViewById(R.id.button_change_false).setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -2338,12 +2571,9 @@ public class MainActivity extends AppCompatActivity {
                                     dialog.getWindow().findViewById(R.id.dia_button_3).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            //linearLayout_imagelist.removeView(imageView);
                                             for (int i = 1; i <= num_sum; i++) {
                                                 linearLayout_imagelist.removeView(linearLayout_imagelist.getChildAt(1));
                                             }
-                                            //linearLayout_imagelist.removeView(imageView);
-                                            //linearLayout_imagelist.removeAllViews();
                                             imageView_main.setImageDrawable(null);
                                             num_sum = 0;
                                             select_num_image = 0;
@@ -2351,11 +2581,6 @@ public class MainActivity extends AppCompatActivity {
                                             dialog.dismiss();
                                         }
                                     });
-
-                                    //dialog_button();
-
-                                    //dialog.dismiss();//取消对话框
-
                                     return false;
                                 }
                             });
@@ -2367,30 +2592,17 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("Exception", e.getMessage(), e);
                         }
                     }
-
                     imageView_example.setImageDrawable(imageView_main.getDrawable());
-
-                    //fileList.add(uri.toString());
                 }
-
-
             }else {
                     Toast.makeText(MainActivity.this, "列表中图片数量已达上限", Toast.LENGTH_SHORT).show();
                 }
-
-
             } else {
-               // super.onActivityResult(requestCode, resultCode, data);
-               // uri = data.getData();
-                //fileList.add(uri.toString());
+
             }
-
-
         }
         show_picture();
         }
-
-
 
     private void saveBitmapPhoto(Bitmap bm, Context context,String s) {
         ContentResolver contentResolver = context.getContentResolver();
@@ -2413,8 +2625,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     public Point onSingleTap(Point e,ImageView imageView) {
         int width=imageView.getWidth();
         int height=imageView.getHeight();
@@ -2431,7 +2641,6 @@ public class MainActivity extends AppCompatActivity {
         }
         Point point=new Point(newx,newy);
         return point;
-
     }
     public int onSingleTap(float x,ImageView imageView) {
         int width=imageView.getWidth();
@@ -2439,15 +2648,11 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap=((BitmapDrawable)imageView.getDrawable()).getBitmap();
         int width2=bitmap.getWidth();
         int height2=bitmap.getHeight();
-
         int newx=Math.round(x/width*width2);
         if (x == 1) {
             newx=1;
         }
-
-
         return newx;
-
     }
 
     public Bitmap getBitmap(Drawable drawable) {
@@ -2461,21 +2666,35 @@ public class MainActivity extends AppCompatActivity {
     }
     public void show_picture(){
         if (select_num_image==0){
+            {
+
+                TranslateAnimation ta = new TranslateAnimation(0,0,0,constraintLayout_picture.getHeight());
+                // 设置动画时长
+                ta.setDuration(250);
+                // 启动动画
+                constraintLayout_picture.startAnimation(ta);
+            }
             constraintLayout_picture.setVisibility(View.GONE);
 
         }else {
 
-            constraintLayout_picture.setVisibility(View.VISIBLE);
+
+
+            if (constraintLayout_picture.getVisibility()!=View.VISIBLE){
+                constraintLayout_picture.setVisibility(View.VISIBLE);
+                TranslateAnimation ta = new TranslateAnimation(0,0,constraintLayout_picture.getHeight(),0);
+                // 设置动画时长
+                ta.setDuration(250);
+                // 启动动画
+                constraintLayout_picture.startAnimation(ta);
+            }
         }
 }
     public int random_numble(int min,int max){
-
     Random random = new Random();
     int num = random.nextInt(max)%(max-min+1) + min;
     return num;
 }
-
-
     //handler为线程之间通信的桥梁
     private Handler handler = new Handler(){
         public void handleMessage(Message msg) {
@@ -2504,6 +2723,12 @@ public class MainActivity extends AppCompatActivity {
                 case 7:
                     dialog_communication.getWindow().findViewById(R.id.progressBar2).setVisibility(View.GONE);
                     dialog_communication.dismiss();
+                case 8:
+                    Toast.makeText(MainActivity.this, "请输入0-1的小数", Toast.LENGTH_SHORT).show();
+                    break;
+                case 9:
+                    Toast.makeText(MainActivity.this, "密钥图未设置或已被删除", Toast.LENGTH_SHORT).show();
+                    break;
                 default :
                     break;
             }
@@ -2534,8 +2759,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return fin;
-
-
     }
     private boolean firstRun() {
         SharedPreferences sharedPreferences = getSharedPreferences("FirstRun",0);
@@ -2548,11 +2771,9 @@ public class MainActivity extends AppCompatActivity {
         }else {
             return false;
         }
-
     }
 
     public Bitmap adjustPhotoRotation(Bitmap bm, final int orientationDegree) {
-
         Matrix m = new Matrix();
         m.setRotate(orientationDegree, (float) bm.getWidth() / 2, (float) bm.getHeight() / 2);
         float targetX, targetY;
@@ -2563,22 +2784,15 @@ public class MainActivity extends AppCompatActivity {
             targetX = bm.getHeight();
             targetY = bm.getWidth();
         }
-
         final float[] values = new float[9];
         m.getValues(values);
-
         float x1 = values[Matrix.MTRANS_X];
         float y1 = values[Matrix.MTRANS_Y];
-
         m.postTranslate(targetX - x1, targetY - y1);
-
         Bitmap bm1 = Bitmap.createBitmap(bm.getHeight(), bm.getWidth(), Bitmap.Config.ARGB_8888);
-
         Paint paint = new Paint();
         Canvas canvas = new Canvas(bm1);
         canvas.drawBitmap(bm, m, paint);
-
-
         return bm1;
     }
     public static String getVerName(Context context) {
@@ -2599,10 +2813,51 @@ private int range(double raw){
         }else {
             return 255;
         }
-
+}
+private Bitmap sw(Bitmap bitmap,Point p1,Point p2){
+    bitmap_process bitmap_process_sw=new bitmap_process();
+    bitmap_process_sw.rewrite(bitmap);
+    int h=p2.y-p1.y+1;
+    int w=p2.x-p1.x+1;
+    for (int i=p1.y;i<=p2.y-1;i+=2){
+        for (int j=p1.x;j<=p2.x-1;j+=2){
+            bitmap_process_sw.setr(i+1,j,bitmap_process_sw.getr(i+1,j));
+            bitmap_process_sw.setg(i+1,j,255-bitmap_process_sw.getg(i+1,j));
+            bitmap_process_sw.setb(i+1,j,255-bitmap_process_sw.getb(i+1,j));
+            bitmap_process_sw.setr(i,j+1,255-bitmap_process_sw.getr(i,j+1));
+            bitmap_process_sw.setg(i,j+1,bitmap_process_sw.getg(i,j+1));
+            bitmap_process_sw.setb(i,j+1,255-bitmap_process_sw.getb(i,j+1));
+            bitmap_process_sw.setr(i+1,j+1,255-bitmap_process_sw.getr(i+1,j+1));
+            bitmap_process_sw.setg(i+1,j+1,255-bitmap_process_sw.getg(i+1,j+1));
+            bitmap_process_sw.setb(i+1,j+1,bitmap_process_sw.getb(i+1,j+1));
+        }
+    }
+    if (h%2==1){
+        for (int j=p1.x;j<=p2.x-1;j+=2){
+            bitmap_process_sw.setr(p2.y,j+1,255-bitmap_process_sw.getr(p2.y,j+1));
+            bitmap_process_sw.setg(p2.y,j+1,bitmap_process_sw.getg(p2.y,j+1));
+            bitmap_process_sw.setb(p2.y,j+1,255-bitmap_process_sw.getb(p2.y,j+1));
+        }
+    }
+    if(w%2==1){
+        for (int i=p1.y;i<=p2.y-1;i+=2){
+            bitmap_process_sw.setr(i+1,p2.x,255-bitmap_process_sw.getr(i+1,p2.x));
+            bitmap_process_sw.setg(i+1,p2.x,bitmap_process_sw.getg(i+1,p2.x));
+            bitmap_process_sw.setb(i+1,p2.x,255-bitmap_process_sw.getb(i+1,p2.x));
+        }
+    }
+    return bitmap_process_sw.rep();
 
 }
+private boolean could(Drawable drawable){
+        Bitmap bitmap=getBitmap(drawable);
+        Boolean can=false;
+        if (bitmap.getWidth()>150&&bitmap.getHeight()>150&&bitmap.getHeight()<5000&&bitmap.getWidth()<5000){
+            can=true;
+        }
+        return can;
 
+}
 
 
 

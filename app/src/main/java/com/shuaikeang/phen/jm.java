@@ -37,28 +37,28 @@ public class jm
 
     }
     public void getraw2(Drawable bitp_dra,Point ss1,Point ss3)
+{
+    Point ss2=new Point(ss3.x-ss1.x+1,ss3.y-ss1.y+1);
+
+
+    Bitmap bitp=p2.getBitmap(bitp_dra);
+    raw = bitp;
+
+
+    rw = ss2.x ;
+    rh = ss2.y;
+    rpoint = new int[rh + 1][ rw + 1];
+    rpoint2 = new int[rh + 1][ rw + 1];
+    p2.rewrite(bitp);
+    for (int i = 1; i <= rh; i++)
     {
-        Point ss2=new Point(ss3.x-ss1.x+1,ss3.y-ss1.y+1);
-
-
-        Bitmap bitp=p2.getBitmap(bitp_dra);
-        raw = bitp;
-
-
-        rw = ss2.x ;
-        rh = ss2.y;
-        rpoint = new int[rh + 1][ rw + 1];
-        rpoint2 = new int[rh + 1][ rw + 1];
-        p2.rewrite(bitp);
-        for (int i = 1; i <= rh; i++)
+        for (int j = 1; j <= rw; j++)
         {
-            for (int j = 1; j <= rw; j++)
-            {
-                rpoint[i][j] = p2.getp(i+ss1.y-1, j+ss1.x-1);
-                rpoint2[i][j]=rpoint[i][j];
-            }
+            rpoint[i][j] = p2.getp(i+ss1.y-1, j+ss1.x-1);
+            rpoint2[i][j]=rpoint[i][j];
         }
     }
+}
 
     public Bitmap setnew()
     {
@@ -76,6 +76,29 @@ public class jm
         p2.point_color=rpoint;
         return p2.rep();
 
+    }
+    public void getraw2(Bitmap bitp,Point ss1,Point ss3)
+    {
+        Point ss2=new Point(ss3.x-ss1.x+1,ss3.y-ss1.y+1);
+
+
+
+        raw = bitp;
+
+
+        rw = ss2.x ;
+        rh = ss2.y;
+        rpoint = new int[rh + 1][ rw + 1];
+        rpoint2 = new int[rh + 1][ rw + 1];
+        p2.rewrite(bitp);
+        for (int i = 1; i <= rh; i++)
+        {
+            for (int j = 1; j <= rw; j++)
+            {
+                rpoint[i][j] = p2.getp(i+ss1.y-1, j+ss1.x-1);
+                rpoint2[i][j]=rpoint[i][j];
+            }
+        }
     }
 
     public Bitmap setnew2(Point ss1,Point ss3)
